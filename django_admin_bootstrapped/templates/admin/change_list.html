@@ -33,7 +33,7 @@
 {% if not is_popup %}
 {% block breadcrumbs %}
 <ul class="breadcrumb">
-<li><a href="{% url 'admin:index' %}">{% trans 'Home' %}</a></li>
+<li><a href="{% url 'admin:index' %}" aria-label="home"><i class="fa fa-home fa-fw"></i>{% trans 'Home' %}</a></li>
 <!--<li><a href="{% url 'admin:app_list' app_label=cl.opts.app_label %}">{% render_with_template_if_exist app_label|lower|add:"/admin_app_name.html" app_label %}</a></li>-->
 <li><a href="{% url 'admin:app_list' app_label=cl.opts.app_label %}">{% with app_label=cl.opts.app_config.verbose_name|default:cl.opts.app_label %}{{ app_label|title }}{% endwith %}</a></li>
 <li>{{ cl.opts.verbose_name_plural|capfirst }}</li>
@@ -92,7 +92,7 @@
 {% endwith %}
 
 {% if action_form and actions_on_top and cl.show_admin_actions %}
-<div class='pull-left'>{% admin_actions %}</div>
+{% admin_actions %}
 {% endif %}
 
 <div id="content-main">

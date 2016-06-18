@@ -5,19 +5,19 @@
 
 {% if not is_popup %}
 {% block breadcrumbs %}
-<ul class="breadcrumb">
-<li><a href="{% url 'admin:index' %}">{% trans 'Home' %}</a></li>
-{% for app in app_list %}
-<li>{% render_app_name app %}</li>
-{% endfor %}
+<ul class="breadcrumb breadcrumb-angle">
+	<li><a href="{% url 'admin:index' %}" aria-label="home"><i class="fa fa-home fa-fw"></i>{% trans 'Home' %}</a></li>
+	{% for app in app_list %}
+		<li>{% render_app_name app %}</li>
+	{% endfor %}
 </ul>
 {% endblock %}
 {% endif %}
 
 {% block content_title %}
-{% for app in app_list %}
+<!-- app_index.html {% for app in app_list %}
 <a class="navbar-brand">{% render_app_name app %} {% trans "administration" %}</a>
-{% endfor %}
+{% endfor %} -->
 {% endblock %}
 
 {% block sidebar %}{% endblock %}

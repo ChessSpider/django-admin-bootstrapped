@@ -1,14 +1,35 @@
 {% load i18n bootstrapped_goodies_tags %}
-<div class="actions form-group">
-    {% for field in action_form %}{% if field.label %}<span style="vertical-align:sub">{{ field.label }}</span> {% endif %}{% dab_field_rendering field %}{% endfor %}
-    <button type="submit" class="btn btn-default" title="{% trans "Run the selected action" %}" name="index" value="{{ action_index|default:0 }}">{% trans "Go" %}</button>
+<div class="panel-body">
+    {% for field in action_form %}{% dab_field_rendering field %}{% endfor %}
+    <button type="submit" class="btn btn-default btn-xs" title="{% trans "Run the selected action" %}" name="index" value="{{ action_index|default:0 }}">{% trans "Go" %}</button>
     {% if actions_selection_counter %}
         <script type="text/javascript">var _actions_icnt="{{ cl.result_list|length|default:"0" }}";</script>
-        <span class="action-counter">{{ selection_note }}</span>
-        {% if cl.result_count != cl.result_list|length %}
+		
+		{% if cl.result_count == cl.result_list|length %}
+		<div class="panel-control pull-right">
+		  <span class="action-counter">{{ selection_note }}</span>
+		</div>
+		
+		{% else %}
+		<div class="panel-control pull-right dropdown">
+			<a aria-expanded="false" href="#" class="btn btn-default btn-icon dropdown-toggle" data-toggle="dropdown"><span class="action-counter">{{ selection_note }}</span> <i class="fa fa-angle-down"></i></a>
+			<ul style="opacity: 0; display: none; transform: scaleX(1) scaleY(1) translateY(0px); transform-origin: 50% 50% 0px;" class="dropdown-menu dropdown-menu-right" role="menu">
+			  <li class="" style="opacity: 1; display: list-item; transform: translateY(0px);" role="presentation">
+				<a role="menuitem" href="javascript:;" title="{% trans "Click here to select the objects across all pages" %}">
+					{% blocktrans with cl.result_count as total_count %}Select all {{ total_count }} {{ module_name }}{% endblocktrans %}
+				</a>
+			  </li>
+			  <li class="" style="opacity: 1; display: list-item; transform: translateY(0px);" role="presentation">
+					<a href="javascript:;">{% trans "Clear selection" %}</a></li>
+			  <li style="opacity: 1; display: list-item; transform: translateY(0px);" role="presentation" class="divider"></li>
+			  <li class="" style="opacity: 1; display: list-item; transform: translateY(0px);" role="presentation"><a role="menuitem" data-toggle="panel-hide" tabindex="-1" href="#">Close</a></li>
+			</ul>
+		</div>
+		
+		<!--  original html
         <span class="all" style="vertical-align:sub">{{ selection_note_all }}</span>
         <span class="question"><a class="btn btn-default" href="javascript:;" title="{% trans "Click here to select the objects across all pages" %}">{% blocktrans with cl.result_count as total_count %}Select all {{ total_count }} {{ module_name }}{% endblocktrans %}</a></span>
-        <span class="clear"><a class="btn btn-default" href="javascript:;">{% trans "Clear selection" %}</a></span>
+        <span class="clear"><a class="btn btn-default" href="javascript:;">{% trans "Clear selection" %}</a></span> -->
         {% endif %}
     {% endif %}
 </div>

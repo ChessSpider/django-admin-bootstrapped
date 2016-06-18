@@ -1,19 +1,70 @@
+{% load staticfiles %}
 {% load i18n admin_static bootstrapped_goodies_tags %}
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+{% load bootstrap3 %}
 {% get_current_language as LANGUAGE_CODE %}{% get_current_language_bidi as LANGUAGE_BIDI %}
-<html xmlns="http://www.w3.org/1999/xhtml" lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="{{ LANGUAGE_CODE|default:"en-us" }}"
+                    {% if LANGUAGE_BIDI %}dir="rtl"{% endif %} class="no-js">
 <head>
-    <title>{% block title %}{% endblock %}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="initial-scale=1,minimum-scale=1,maximum-scale=1,width=device-width,height=device-height,target-densitydpi=device-dpi,user-scalable=yes">
 
-    {% block extrastyle %}{% endblock %}
+  <title>PulseJam - {% block title %}Home{% endblock %}</title>
 
-    <link href="{% static "bootstrap/css/bootstrap.min.css" %}" rel="stylesheet"/>
-    <link rel="stylesheet" type="text/css" href="{% static "admin/css/overrides.css" %}" />
+  <!-- favicon.ico and apple-touch-icon.png -->
+  <link rel="apple-touch-icon" sizes="57x57" href="{% static "images/favicons/apple-touch-icon-57x57.png" %}">
+  <link rel="apple-touch-icon" sizes="60x60" href="{% static "images/favicons/apple-touch-icon-60x60.png" %}">
+  <link rel="apple-touch-icon" sizes="72x72" href="{% static "images/favicons/apple-touch-icon-72x72.png" %}">
+  <link rel="apple-touch-icon" sizes="76x76" href="{% static "images/favicons/apple-touch-icon-76x76.png" %}">
+  <link rel="apple-touch-icon" sizes="114x114" href="{% static "images/favicons/apple-touch-icon-114x114.png" %}">
+  <link rel="apple-touch-icon" sizes="120x120" href="{% static "images/favicons/apple-touch-icon-120x120.png" %}">
+  <link rel="apple-touch-icon" sizes="144x144" href="{% static "images/favicons/apple-touch-icon-144x144.png" %}">
+  <link rel="apple-touch-icon" sizes="152x152" href="{% static "images/favicons/apple-touch-icon-152x152.png" %}">
+  <link rel="icon" type="image/png" href="{% static "images/favicons/favicon-32x32.png" %}" sizes="32x32">
+  <link rel="icon" type="image/png" href="{% static "images/favicons/favicon-96x96.png" %}" sizes="96x96">
+  <link rel="icon" type="image/png" href="{% static "images/favicons/favicon-16x16.png" %}" sizes="16x16">
+  <link rel="manifest" href="{% static "images/favicons/manifest.json" %}">
+  <meta name="msapplication-TileColor" content="#2d89ef">
+  <meta name="msapplication-TileImage" content="{% static "images/favicons/mstile-144x144.png" %}">
+  <meta name="theme-color" content="#ffffff">
+
+  <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,700,600,300" rel="stylesheet" type="text/css">
+
+  <link rel="stylesheet" href="{% static "styles/bootstrap.css" %}">
+  <link rel="stylesheet" href="{% static "styles/dependencies.css" %}">
+
+  <link rel="stylesheet" href="{% static "styles/wrapkit.css" %}">
+
+  <link rel="stylesheet" href="{% static "styles/custom.css" %}">
     {% if LANGUAGE_BIDI %}
     <link href="{% static "bootstrap-rtl/css/bootstrap-rtl.min.css" %}" rel="stylesheet"/>
     <link href="{% static "bootstrap-rtl/css/bootstrap-flipped.min.css" %}" rel="stylesheet"/>
     {% endif %}
+
+        {% block extrastyle %}{% endblock %}
+      {% block page_css  %}
+  <!-- custom page css -->
+  {% endblock %}
+
+  <!-- VENDORS : jQuery & Bootstrap -->
+  <script src="{% static "scripts/vendor.js" %}"></script>
+  <script src="{% static "scripts/dependencies.js" %}"></script>
+  <script src="{% static "scripts/plugin-setups.js" %}"></script>
+
+  <!-- COMPONENTS -->
+  <script src="{% static "scripts/typeahead.bundle.js" %}"></script>
+  <script src="{% static "scripts/jquery.tagsinput.js" %}"></script>
+  <script src="{% static "scripts/jquery.mask.js" %}"></script>
+  <script src="{% static "scripts/select2.js" %}"></script>
+  <script src="{% static "scripts/jquery.selectBoxit.js" %}"></script>
+  <script src="{% static "scripts/moment.js" %}"></script>
+  <script src="{% static "scripts/morris.bundle.js" %}"></script>
+  <script src="{% static "scripts/jquery.sparkline.js" %}"></script>
+  <script src="{% static "scripts/jquery.easypiechart.js" %}"></script>
+  {% block page_js_header %}
+  <!-- custom page js for header -->
+  {% endblock %}
 
     <script type="text/javascript">
     //<![CDATA[
@@ -21,9 +72,9 @@
         window.__admin_utc_offset__ = "{% filter escapejs %}{% now "Z" %}{% endfilter %}";
     //]]>
     </script>
-    <script src="{% static "admin/js/jquery-1.9.1.min.js" %}"></script>
+    <!-- <script src="{% static "admin/js/jquery-1.9.1.min.js" %}"></script>
     <script src="{% static "admin/js/jquery-migrate-1.2.1.min.js" %}"></script>
-    <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
+    <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script> -->
 
     {% block extrahead %}{% endblock %}
 
@@ -41,148 +92,312 @@
 </head>
 {% load i18n %}
 
-<body class="{% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}">
-
+<body class="{% if is_popup %}popup {% endif %}{% block bodyclass %}bg-grd-blue{% endblock %}">
+  {% block site %}
 <!-- Container -->
-<div class="container">
+<main class="wrapkit-wrapper" id="wrapper">
 
     {% if not is_popup %}
-    <!-- Header -->
-    <div class="navbar navbar-default navbar-fixed-top">
-        <div class="navbar-inner">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#header-navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    {% block branding %}{% endblock %}
+
+    <!-- ============================================
+    HEADER SECTION
+    =============================================== -->
+    <!-- navigation -->
+    <nav class="header navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <!-- use .pull-*, couse we need this float on any screen size -->
+        <div class="pull-left">
+          <a class="navbar-brand" href="index.html" role="logo" aria-label="Logo">
+            <img class="logo" src="{% static "images/logo/brand-text-dark.png" %}" alt="Brand">
+          </a>
+          <button data-sidebar="toggleVisible" class="btn btn-icon navbar-btn">
+            <i class="fa fa-bars"></i>
+            <i class="fa fa-caret-down"></i>
+          </button>
+        </div>
+
+        <!-- use .pull-*, couse we need this float on any screen size -->
+        <div class="pull-right" role="navigation">
+          <a aria-label="Search" id="brandSearchNav" class="btn btn-icon navbar-btn" href="#"><i class="fa fa-search"></i></a>
+
+          <div class="dropdown-ext">
+            <a aria-label="notifications" class="btn btn-icon navbar-btn dropdown-toggle" data-toggle="dropdown" href="#">
+              <i class="fa fa-inbox"></i>
+              <span class="dotted dotted-danger"></span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-ext dropdown-menu-right" role="menu">
+              <div class="dd-head">
+                <div class="dd-head-actions">
+                  <a href="#" class="btn btn-xs btn-default">Compose</a>
                 </div>
-                <div id="header-navbar-collapse" class="navbar-collapse collapse navbar-{% if LANGUAGE_BIDI %}left{% else %}right{% endif %}">
-                    <ul class="nav navbar-nav">
-                        {% if has_permission %}
-                        {% block usertools %}
-                        <li class="dropdown">
-                            {% block welcome-msg %}
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans 'Welcome,' %} <strong>{% filter force_escape %}{% firstof user.get_short_name user.get_username %}{% endfilter %}</strong> <span class="caret"></span></a>
-                            {% endblock %}
-                            <ul class="dropdown-menu">
-                                {% if site_url %}
-                                    <li><a href="{{ site_url }}">{% trans 'View site' %}</a></li>
-                                {% endif %}
-                                {% if user.is_active and user.is_staff %}
-                                    {% url 'django-admindocs-docroot' as docsroot %}
-                                    {% if docsroot %}
-                                        <li><a href="{{ docsroot }}">{% trans 'Documentation' %}</a></li>
-                                    {% endif %}
-                                {% endif %}
-                                {% if user.has_usable_password %}
-                                <li><a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a></li>
-                                {% endif %}
-                                <li><a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a></li>
-                            </ul>
-                        </li>
-                        {% endblock %}
-                        {% block languages %}
-                        <li class="divider-vertical"></li>
-                        {% language_selector %}
-                        {% endblock languages %}
-                        {% block logs %}
-                        <li class="dropdown" id="recent-actions-module">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans 'Recent Actions' %} <b class="caret"></b></a>
-                            {% load log %}
-                            {% get_admin_log 10 as admin_log for_user user %}
-                            <ul class="dropdown-menu">
-                                {% for entry in admin_log %}
-                                <li class="{% if entry.is_addition %}addlink{% endif %}{% if entry.is_change %}changelink{% endif %}{% if entry.is_deletion %}deletelink{% endif %}">
-                                    <a href="{% if entry.is_deletion or not entry.get_admin_url %}#{% else %}{{ entry.get_admin_url }}{% endif %}">
-                                        <i class="glyphicon glyphicon-{% if entry.is_addition %}plus{% endif %}{% if entry.is_change %}edit{% endif %}{% if entry.is_deletion %}remove{% endif %}"></i>
-                                        {{ entry.object_repr }}
-                                        {% if entry.content_type %}
-                                        <span class="mini quiet">({% filter capfirst %}{{ entry.content_type }}{% endfilter %})</span>
-                                        {% else %}
-                                        <span class="mini quiet">({% trans 'Unknown content' %})</span>
-                                        {% endif %}
-                                    </a>
-                                </li>
-                                {% empty %}
-                                <li class="disabled"><a href="#">{% trans 'None available' %}</a></li>
-                                {% endfor %}
-                            </ul>
-                        </li>
-                        {% endblock %}
-                        {% block userlinks %}
-                        {% url 'django-admindocs-docroot' as docsroot %}
-                        {% if docsroot %}
-                        <li class="divider-vertical"></li>
-                        <li><a href="{{ docsroot }}">{% trans 'Documentation' %}</a></li>
-                        {% endif %}
-                        {% endblock %}
-                        {% endif %}
-                        {% block nav-global %}{% endblock %}
-                    </ul>
-                </div><!--/.nav-collapse -->
-            </div>
-        </div>
-    </div>
-    <!-- END Header -->
-    <div class="row">
-        <div class="col-sm-12">
-            {% block breadcrumbs %}
+                <p><a href="#">Inbox (2)</a></p>
+              </div>
+              <div class="dd-body">
+                <ul class="media-list">
+                  <li class="media unread">
+                    <a href="#">
+                      <div class="media-left">
+                        <img class="media-object img-circle" width="32" src="{% static "images/dummy/unknown-profile.jpg" %}" alt="user">
+                      </div>
+                      <div class="media-body">
+                        <p class="pull-right"><small>6m</small></p>
+                        <h4 class="media-heading body-text">Aziz Ahrouch</h4>
+                        <p>O nee wat moet hier komen?</p>
+                      </div>
+                    </a>
+                    <span class="dd-actions">
+                      <a href="#" title="mark as read" data-toggle="tooltip" data-container="body" data-placement="bottom"><i class="fa fa-circle-o"></i></a>
+                    </span>
+                  </li>
+                </ul>
+              </div><!-- /.dd-body -->
+            </div><!-- /.dropdown-menu -->
+          </div><!-- /.dropdown -->
+
+          <div class="dropdown-ext">
+            <a aria-label="notifications" class="btn btn-icon navbar-btn dropdown-toggle" data-toggle="dropdown" href="#">
+              <i class="fa fa-history"></i>
+              <span class=""></span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-ext dropdown-menu-right" role="menu">
+              <div class="dd-head">
+                <div class="dd-head-actions">
+                  <a href="#" class="btn btn-xs btn-default">View all</a>
+                </div>
+                <p>Recent actions</p>
+              </div>
+                <div class="dd-body">
+                {% load log %}
+                {% get_admin_log 10 as admin_log for_user user %}
+                <ul class="media-list">
+                    {% for entry in admin_log %}
+                    <li class="media {% if entry.is_addition %}addlink{% endif %}{% if entry.is_change %}changelink{% endif %}{% if entry.is_deletion %}deletelink{% endif %}"
+                            title="{{ entry }}">
+                        <a href="{% if entry.is_deletion or not entry.get_admin_url %}#{% else %}{{ entry.get_admin_url }}{% endif %}">
+                            <i class="glyphicon glyphicon-{% if entry.is_addition %}plus{% endif %}{% if entry.is_change %}edit{% endif %}{% if entry.is_deletion %}remove{% endif %}"></i>
+                            {{ entry.object_repr }}
+                            {% if entry.content_type %}
+                            <span class="mini quiet">({% filter capfirst %}{{ entry.content_type }}{% endfilter %})</span>
+                            {% else %}
+                            <span class="mini quiet">({% trans 'Unknown content' %})</span>
+                            {% endif %}
+                        </a>
+                    </li>
+                    {% empty %}
+                    <li class="disabled"><a href="#">{% trans 'None available' %}</a></li>
+                    {% endfor %}
+                </ul>
+              </div><!-- /.dd-body -->
+            </div><!-- /.dropdown-menu -->
+          </div><!-- /.dropdown -->
+
+        <div class="dropdown">
+            {% block welcome-msg %}
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans 'Welcome,' %} <strong>{% filter force_escape %}{% firstof user.get_short_name user.get_username %}{% endfilter %}</strong> <span class="caret"></span></a>
             {% endblock %}
+            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                {% if site_url %}
+                    <li><a href="{{ site_url }}">{% trans 'View site' %}</a></li>
+                {% endif %}
+                {% if user.is_active and user.is_staff %}
+                    {% url 'django-admindocs-docroot' as docsroot %}
+                    {% if docsroot %}
+                        <li><a href="{{ docsroot }}">{% trans 'Documentation' %}</a></li>
+                    {% endif %}
+                {% endif %}
+                {% if user.has_usable_password %}
+                <li><a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a></li>
+                {% endif %}
+                              <li role="presentation"><a role="menuitem" tabindex="-1" href="{# url 'my:profile' #}"><span class="pull-right"><i class="fa fa-user text-muted"></i></span>Profile</a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class="pull-right"><i class="fa fa-clock-o text-muted"></i></span>Timeline</a></li>
+              <li class="divider"></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class="pull-right"><i class="fa fa-question-circle text-muted"></i></span>Help</a></li>
+              <li class="divider"></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class="pull-right"><i class="fa fa-lock text-muted"></i></span>Locked</a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="{# url 'my:logout' #}"><span class="pull-right"><i class="fa fa-sign-out text-muted"></i></span> Sign out</a></li>
+            </ul>
         </div>
-    </div>
+
+        {% block userlinks %}
+        {% url 'django-admindocs-docroot' as docsroot %}
+        {% if docsroot %}
+        <li class="divider-vertical"></li>
+        <li><a href="{{ docsroot }}">{% trans 'Documentation' %}</a></li>
+        {% endif %}
+        {% endblock %}
+        {% block nav-global %}{% endblock %}
+
+        </div><!-- /navigation -->
+
+        <div class="brand-search" id="brandSearchFrm">
+          <form action="#" role="search">
+            <a href="#" class="search-close">&times;</a>
+            <input class="search-field" placeholder="Search for everything you want..." tabindex="-1">
+          </form>
+        </div><!-- /.brand-search -->
+      </div><!-- /.container-fluid -->
+    </nav><!-- /navigation -->
+
     {% endif %}
 
-    <!-- Content -->
-    <div id="content" class="{% block coltype %}colM{% endblock %}">
-        {% block navbar %}
-        <div class="navbar navbar-default">
-            <div class="navbar-inner">
-                {% block pretitle %}{% endblock %}
-                    <div class="navbar-header">
-                        {% block content-navbar-collapse %}
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#content-navbar-collapse" aria-expanded="false" aria-controls="navbar">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        {% endblock %}
-                    {% block content_title %}
-                    {% if title %}
-                        <span class="navbar-brand">{% render_with_template_if_exist title|lower|add:"/admin_app_name.html" title %}</span>
-                    {% endif %}
-                    {% endblock %}
-                    </div>
-                {% block object-tools %}{% endblock %}
-            </div>
+
+    <!-- ============================================
+    SIDEBAR SECTION
+    =============================================== -->
+    <aside class="sidebar" role="complementary">
+
+      <!-- profile -->
+      <div class="sidebar-block">
+        <div class="media">
+          <div class="media-left">
+            <a href="{# url 'my:profile' #}">
+              <span class="status dotted dotted-primary" data-toggle="tooltip" data-container="body" title="available"></span>
+              <img class="media-object img-circle" src="{% static "images/dummy/unknown-profile.jpg" %}" alt="photo profile">
+            </a>
+          </div>
+          <div class="media-body">
+            <h4 class="media-heading">
+              {% if user.first_name|length %}
+                        {{ user.first_name }} {{ user.last_name }}
+                      {% else %} {{ user.username }} {% endif %}</h4>
+            <p class="text-muted">
+              <small>Programmer</small>
+            </p>
+          </div>
         </div>
+      </div><!-- /.sidebar-block -->
+      <!-- /profile -->
+
+        {% load menu %}
+
+      <!-- /navigation -->
+      <div class="nav-wrapper">
+        <ul class="nav nav-stacked" role="navigation">
+          {% block submenu %}
+            {% generate_menu %}
+
+        {% with menu=menus.main %}{% include "main/wrapkit-menu.html" %}{% endwith %}
+
+        <li class="divider"></li>
+        {% with menu=menus.crm %}{% include "main/wrapkit-menu.html" %}{% endwith %}
+          {% endblock %}
+          <li class="collapse-item" role="presentation">
+            <a href="#" data-sidebar="toggleCollapse">
+              <i class="fa fa-angle-double-left"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </aside><!-- /.SIDEBAR -->
+
+     <!-- ============================================
+    MAIN CONTENT SECTION
+    =============================================== -->
+    <section class="content-wrapper" role="main">
+      <div class="content">
+        <div class="content-bar">
+          <div class="pull-right" role="group">
+            <a data-toggle="modal" href="#" data-scripts="{% static "_includes/setups.js" %}" data-target="#templateSetup" title="Template Setups" aria-label="template setups" class="btn btn-nofill btn-sm btn-default"><span class="icon-settings fa-lg text-muted"></span></a>
+          </div>
+
+
+          {% block breadcrumbs %}
+            {% endblock %}
+
+            {% block messages %}
+            {% if messages %}
+            {% bootstrap_messages %}
+            {% endif %}
+            {% endblock messages %}
+
+        </div><!-- /.content-bar -->
+
+        {% block navbar %}
+        <nav class="navbar navbar-light">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#content-navbar-collapse" aria-expanded="false">
+                      <span class="sr-only">Toggle navigation</span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" style="padding:15px">Page menu</a>
+                  </div>
+
+                    {% block object-tools %}{% endblock %}
+
+            </div>
+        </nav>
         {% endblock navbar %}
 
-        {% block messages %}
-        {% if messages %}
-        <div class="row">
-            <div class="col-sm-12">
-                {% for message in messages %}
-                <div class="alert alert-{{ message.tags|default:"alert-info" }}">
-                    {{ message|capfirst }}
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-        {% endif %}
-        {% endblock messages %}
+        <div class="content-body">
 
-        {% block content %}{{ content }}{% endblock %}
+            {% block pretitle %}{% endblock %}
+            {% block content_title %}
+            {% if title %}
+                <h1>{% render_with_template_if_exist title|lower|add:"/admin_app_name.html" title %}</h1>
+            {% endif %}
+            {% endblock %}
+
+         {% block content %}{{ content }}{% endblock %}
+
+            <div class="clearfix"></div>
+        </div><!-- /.content-body -->
+
+        <!-- block sidebar, not originally in template -->
         {% block sidebar %}{% endblock %}
-    </div>
-    <!-- END Content -->
+        <!-- endblock sidebar -->
 
-    {% block footer %}<footer id="footer"></footer>{% endblock %}
-</div>
+        <!-- Template Setups -->
+        <div class="modal fade" id="templateSetup">
+          <div class="modal-dialog">
+            <!-- modal-content -->
+            <div class="modal-content">
+                Mja iets van instellingen?<br/>
+                Ik weet nog niet wat ik hier mee moet..<br/>
+            </div>
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.templateSetup -->
+
+
+      </div><!-- /.content -->
+    </section><!-- /MAIN -->
+
+
+
+
+    <!-- ============================================
+    FOOTER SECTION
+    =============================================== -->
+    <footer class="footer-wrapper" role="contentinfo">
+      <div class="footer">
+        <div class="pull-right text-muted"><small>Currently v1.2</small></div>
+        <div>Wrapkit Template  &copy; 2015</div>
+      </div>
+    </footer><!-- /.FOOTER -->
+
+  </main><!-- /#MAIN -->
 <!-- END Container -->
+  {% endblock %}
+
+
+  <!-- WRAPKIT -->
+  <script src="{% static "scripts/wrapkit.js" %}"></script>
+  <!-- END WRAPKIT -->
+
+
+  <!-- WRAPKIT SETUPS -->
+  <script src="{% static "scripts/wrapkit-setup.js" %}"></script>
+  <!-- end WRAPKIT SETUPS -->
+
+  {% block page_js_footer %}
+  <!-- custom page js for footer -->
+  {% endblock %}
+
+  <!-- DUMMY: Use for demo -->
+
+
 
 </body>
 </html>
