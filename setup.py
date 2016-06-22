@@ -20,7 +20,7 @@ setup(
     author="Machiel Pronk, Riccardo Forina",
     # maintainer="Riccardo Magliocchetti",
     name='django-admin-bootstrapped-wrapkit',
-    version='2.5.7',
+    version='3.0.0',
     description='A Bootstrap theme for Django Admin, modified for wrapkit layout',
     long_description=open(os.path.join(os.path.dirname(__file__), 'README.rst')).read(),
     url='https://github.com/Podictive/django-admin-bootstrapped',
