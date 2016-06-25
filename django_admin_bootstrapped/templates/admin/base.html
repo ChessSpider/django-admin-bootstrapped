@@ -1,6 +1,7 @@
 {% load staticfiles %}
 {% load i18n admin_static bootstrapped_goodies_tags %}
 {% load bootstrap3 %}
+{% load menu %}
 {% get_current_language as LANGUAGE_CODE %}{% get_current_language_bidi as LANGUAGE_BIDI %}
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="{{ LANGUAGE_CODE|default:"en-us" }}"
@@ -107,7 +108,7 @@
       <div class="container-fluid">
         <!-- use .pull-*, couse we need this float on any screen size -->
         <div class="pull-left">
-          <a class="navbar-brand" href="index.html" role="logo" aria-label="Logo">
+          <a class="navbar-brand" href="/" role="logo" aria-label="Logo">
             <img class="logo" src="{% static "images/logo/brand-text-dark.png" %}" alt="Brand">
           </a>
           <button data-sidebar="toggleVisible" class="btn btn-icon navbar-btn">
@@ -238,7 +239,7 @@
       </div><!-- /.container-fluid -->
     </nav><!-- /navigation -->
 
-    {% endif %}
+
 
 
     <!-- ============================================
@@ -252,7 +253,7 @@
           <div class="media-left">
             <a href="{# url 'my:profile' #}">
               <span class="status dotted dotted-primary" data-toggle="tooltip" data-container="body" title="available"></span>
-              <img class="media-object img-circle" src="{% static "images/dummy/unknown-profile.jpg" %}" alt="photo profile">
+              <img class="media-object img-circle" src="{{ request.user.employeeprofile.photo.thumbnail.42x42}}" alt="photo profile">
             </a>
           </div>
           <div class="media-body">
@@ -268,18 +269,15 @@
       </div><!-- /.sidebar-block -->
       <!-- /profile -->
 
-        {% load menu %}
+        
 
       <!-- /navigation -->
       <div class="nav-wrapper">
         <ul class="nav nav-stacked" role="navigation">
           {% block submenu %}
             {% generate_menu %}
-
-        {% with menu=menus.main %}{% include "main/wrapkit-menu.html" %}{% endwith %}
-
-        <li class="divider"></li>
-        {% with menu=menus.crm %}{% include "main/wrapkit-menu.html" %}{% endwith %}
+            {% with menu=menus.main %}{% include "main/wrapkit-menu.html" %}{% endwith %}
+            <li class="divider"></li>
           {% endblock %}
           <li class="collapse-item" role="presentation">
             <a href="#" data-sidebar="toggleCollapse">
@@ -289,6 +287,8 @@
         </ul>
       </div>
     </aside><!-- /.SIDEBAR -->
+
+    {% endif %}
 
      <!-- ============================================
     MAIN CONTENT SECTION
@@ -325,7 +325,7 @@
                     <a class="navbar-brand" style="padding:15px">Page menu</a>
                   </div>
 
-                    {% block object-tools %}{% endblock %}
+                        {% block object-tools %}{% endblock %}
 
             </div>
         </nav>
