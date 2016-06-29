@@ -36,10 +36,7 @@
                             {% else %}
                                 {% dab_field_rendering field.field %}
                             {% endif %}
-                            {% if not field.is_readonly and field.errors %}<span class="text-danger">{{ field.errors|striptags }}</span>{% endif %}
-                            {% if field.field.help_text %}
-                                <div class="help-block">{{ field.field.help_text|safe }}</div>
-                            {% endif %}
+
                         </div>
                         {% endif %}
                     </div>
