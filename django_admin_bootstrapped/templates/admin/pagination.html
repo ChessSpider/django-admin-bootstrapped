@@ -1,14 +1,13 @@
 {% load admin_list %}
 {% load i18n %}
-
-{% load admin_list %}
-{% load i18n %}
 {% if pagination_required %}
 <div>
-    <ul class="pagination">
+    <ul class="pagination pagination-circle">
     {% for i in page_range %}
         {% if i == "." %}
             <li><span>{% paginator_number cl i %}</span></li>
+        {% elif i == cl.page_num %}
+            <li class="active"><a href="{{ i }}">{{ i|add:"1" }}</a></li>
         {% else %}
             <li>{% paginator_number cl i %}</li>
         {% endif %}
