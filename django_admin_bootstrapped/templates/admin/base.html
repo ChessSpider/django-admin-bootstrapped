@@ -54,15 +54,16 @@
   <script src="{% static "scripts/plugin-setups.js" %}"></script>
 
   <!-- COMPONENTS -->
-  <script src="{% static "scripts/typeahead.bundle.js" %}"></script>
+  <!-- <script src="{% static "scripts/typeahead.bundle.js" %}"></script>
   <script src="{% static "scripts/jquery.tagsinput.js" %}"></script>
   <script src="{% static "scripts/jquery.mask.js" %}"></script>
   <script src="{% static "scripts/select2.js" %}"></script>
   <script src="{% static "scripts/jquery.selectBoxit.js" %}"></script>
-  <script src="{% static "scripts/moment.js" %}"></script>
   <script src="{% static "scripts/morris.bundle.js" %}"></script>
   <script src="{% static "scripts/jquery.sparkline.js" %}"></script>
-  <script src="{% static "scripts/jquery.easypiechart.js" %}"></script>
+  <script src="{% static "scripts/jquery.easypiechart.js" %}"></script> -->
+    <script src="{% static "scripts/moment.js" %}"></script>  <!-- required for datetimepicker at least -->
+
   {% block page_js_header %}
   <!-- custom page js for header -->
   {% endblock %}
@@ -75,7 +76,7 @@
     </script>
     <!-- <script src="{% static "admin/js/jquery-1.9.1.min.js" %}"></script>
     <script src="{% static "admin/js/jquery-migrate-1.2.1.min.js" %}"></script>
-    <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script> -->
+    <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>-->
 
     {% block extrahead %}{% endblock %}
 
@@ -93,7 +94,7 @@
 </head>
 {% load i18n %}
 
-<body class="{% if is_popup %}popup {% endif %}{% block bodyclass %}bg-grd-blue{% endblock %}">
+<body class="{% block bodyclass %}bg-grd-blue{% endblock %} {% if is_popup %}popup{% endif %}">
   {% block site %}
 <!-- Container -->
 <main class="wrapkit-wrapper" id="wrapper">
@@ -296,13 +297,15 @@
     <section class="content-wrapper" role="main">
       <div class="content">
         <div class="content-bar">
-          <div class="pull-right" role="group">
+          {% if not is_popup %}
+            <div class="pull-right" role="group">
             <a data-toggle="modal" href="#" data-scripts="{% static "_includes/setups.js" %}" data-target="#templateSetup" title="Template Setups" aria-label="template setups" class="btn btn-nofill btn-sm btn-default"><span class="icon-settings fa-lg text-muted"></span></a>
           </div>
 
 
           {% block breadcrumbs %}
             {% endblock %}
+            {% endif %}
 
             {% block messages %}
             {% if messages %}
@@ -312,6 +315,7 @@
 
         </div><!-- /.content-bar -->
 
+          {% if not is_popup %}
         {% block navbar %}
         <nav class="navbar navbar-light">
             <div class="container-fluid">
@@ -324,12 +328,12 @@
                     </button>
                     <a class="navbar-brand" style="padding:15px">Page menu</a>
                   </div>
-
-                        {% block object-tools %}{% endblock %}
+             {% block object-tools %}{% endblock %}
 
             </div>
         </nav>
         {% endblock navbar %}
+            {% endif %}
 
         <div class="content-body">
 
@@ -365,7 +369,7 @@
     </section><!-- /MAIN -->
 
 
-
+{% if not is_popup %}
 
     <!-- ============================================
     FOOTER SECTION
@@ -376,6 +380,7 @@
         <div>Wrapkit Template  &copy; 2015</div>
       </div>
     </footer><!-- /.FOOTER -->
+    {% endif %}
 
   </main><!-- /#MAIN -->
 <!-- END Container -->
