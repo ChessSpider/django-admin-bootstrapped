@@ -1,6 +1,7 @@
 {% load i18n admin_urls admin_static bootstrapped_goodies_tags %}
 <div class="_inline-group" id="{{ inline_admin_formset.formset.prefix }}-group">
-    <h2>{{ inline_admin_formset.opts.verbose_name_plural|capfirst }}</h2>
+    <fieldset>
+    <legend>{{ inline_admin_formset.opts.verbose_name_plural|capfirst }}</legend>
     {{ inline_admin_formset.formset.management_form }}
     {% if inline_admin_formset.formset.non_form_errors %}
     <div class="alert alert-danger">
@@ -77,6 +78,7 @@
             </div>
             {% endfor %}
         </div>
+    </fieldset>
 </div>
 
 
