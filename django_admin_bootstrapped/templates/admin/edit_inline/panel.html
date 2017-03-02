@@ -99,7 +99,10 @@
                 DateTimeShortcuts.init();
             }
             // explicitly window.jQuery  as default is django.jQuery
-            window.jQuery(row).find('input[data-input=daterangepicker]').daterangepicker();
+            window.jQuery(row).find('input[data-input=daterangepicker]').daterangepicker().on('apply.daterangepicker',
+                function(ev, picker) {
+                    $(this).val(picker.startDate.format(picker.locale.format));
+                });
         };
         var updateSelectFilter = function() {
             // If any SelectFilter widgets were added, instantiate a new instance.
