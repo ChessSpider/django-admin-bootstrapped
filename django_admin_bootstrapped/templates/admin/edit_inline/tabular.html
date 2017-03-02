@@ -91,12 +91,14 @@
                 .filter(":even").addClass("row1").end()
                 .filter(rows + ":odd").addClass("row2");
         }
-        var reinitDateTimeShortCuts = function() {
+        var reinitDateTimeShortCuts = function(row) {
             // Reinitialize the calendar and clock widgets by force
             if (typeof DateTimeShortcuts != "undefined") {
                 $(".datetimeshortcuts").remove();
                 DateTimeShortcuts.init();
             }
+                        // explicitly window.jQuery  as default is django.jQuery
+            window.jQuery(row).find('input[data-input=daterangepicker]').daterangepicker();
         }
         var updateSelectFilter = function() {
             // If any SelectFilter widgets are a part of the new form,
@@ -136,7 +138,7 @@
             removed: alternatingRows,
             added: (function(row) {
                 initPrepopulatedFields(row);
-                reinitDateTimeShortCuts();
+                reinitDateTimeShortCuts(row);
                 updateSelectFilter();
                 alternatingRows(row);
             })

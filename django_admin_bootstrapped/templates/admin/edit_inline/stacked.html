@@ -65,12 +65,14 @@
                 $(this).html($(this).html().replace(/(#\d+)/g, "#" + count));
             });
         };
-        var reinitDateTimeShortCuts = function() {
+        var reinitDateTimeShortCuts = function(row) {
             // Reinitialize the calendar and clock widgets by force, yuck.
             if (typeof DateTimeShortcuts != "undefined") {
                 $(".datetimeshortcuts").remove();
                 DateTimeShortcuts.init();
             }
+            // explicitly window.jQuery  as default is django.jQuery
+            window.jQuery(row).find('input[data-input=daterangepicker]').daterangepicker();
         };
         var updateSelectFilter = function() {
             // If any SelectFilter widgets were added, instantiate a new instance.
@@ -109,7 +111,7 @@
             removed: updateInlineLabel,
             added: (function(row) {
                 initPrepopulatedFields(row);
-                reinitDateTimeShortCuts();
+                reinitDateTimeShortCuts(row);
                 updateSelectFilter();
                 updateInlineLabel(row);
             })
