@@ -32,6 +32,10 @@
 {% block object-tools %}
 {% if change %}{% if not is_popup %}
 <div id="content-navbar-collapse" class="navbar-collapse collapse">
+    <ul class="object-tools nav navbar-nav">
+        {% block left-object-tools-items %}
+        {% endblock %}
+    </ul>
   <ul class="nav navbar-nav navbar-right">
     {% block object-tools-items %}
     <li>
@@ -49,6 +53,7 @@
 
 {% with module_name=opts.model_name|lower|slugify %}
     {% render_with_template_if_exist opts.app_label|lower|add:"/admin_model_"|add:module_name|add:"_change_form.html" "" %}
+
 {% endwith %}
 
 

@@ -11,6 +11,22 @@ register = template.Library()
 CUSTOM_FIELD_RENDERER = getattr(settings, 'DAB_FIELD_RENDERER', False)
 
 
+import pdb as pdb_module
+
+from django.template import Library, Node
+
+register = Library()
+
+class PdbNode(Node):
+
+    def render(self, context):
+        pdb_module.set_trace()
+        return ''
+
+@register.tag
+def pdb(parser, token):
+    return PdbNode()
+
 @register.simple_tag(takes_context=True)
 def render_with_template_if_exist(context, template, fallback):
     text = fallback
