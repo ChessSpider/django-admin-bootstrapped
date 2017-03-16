@@ -59,7 +59,7 @@
                 {% endif %}
                 {% endfor %}{% endfor %}
 
-                <div class="panel-collapse {% if not forloop.last %}collapse{% endif %}{% if not inline_admin_formset.opts.start_collapsed %} in{% endif %}">
+                <div class="panel-collapse {% if not forloop.last %}{% if not errors %}collapse{% endif %}{% endif %}{% if not inline_admin_formset.opts.start_collapsed %} in{% endif %}">
                     <div class="panel-body">
                         {% if inline_admin_form.form.non_field_errors %}
                     <div class="alert alert-danger">

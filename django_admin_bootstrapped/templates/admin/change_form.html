@@ -73,7 +73,11 @@
 
         {% block field_sets %}
         {% for fieldset in adminform %}
-          {% include "admin/includes/fieldset.html" with group_column_width=adminform|form_fieldset_column_width %}
+            {% if forloop.first %}
+                {% include "admin/includes/fieldset.html" with group_column_width=adminform|form_fieldset_column_width do_not_show_header=True %}
+            {% else %}
+                {% include "admin/includes/fieldset_t.html" with group_column_width=adminform|form_fieldset_column_width %}
+            {% endif %}
         {% endfor %}
         {% endblock %}
 

@@ -5,20 +5,16 @@
         {% if fieldset.name %}
         <div class="panel-heading">
             <h3 class="panel-title">
-                {% if 'collapse' in fieldset.classes %}
                 <a data-toggle="collapse"
                    data-target="#fieldset-{% if stacked_prefix %}{{ stacked_prefix }}-{% endif %}{{ forloop.counter }} .panel-collapse">
                     {{ fieldset.name }}
                     &nbsp;<span class="btn btn-xs btn-default"><span
                         class="glyphicon glyphglyphicon glyphicon-resize-full"></i></span>
                 </a>
-                {% else %}
-                {{ fieldset.name }}
-                {% endif %}
             </h3>
         </div>
         {% endif %}
-        <div id="body-{% if stacked_prefix %}{{ stacked_prefix }}-{% endif %}{{ forloop.counter }}" class="panel-collapse {% if not errors %}{{ fieldset.classes }}{% endif %}" style="height: 0px;">
+        <div id="body-{% if stacked_prefix %}{{ stacked_prefix }}-{% endif %}{{ forloop.counter }}" class="panel-collapse  {% if not errors %}collapse{{ fieldset.classes }}{% endif %}" style="height: 0px;">
             <div class="panel-body">
                 {% if fieldset.description %}
                 <div class="description">{{ fieldset.description|safe }}</div>
