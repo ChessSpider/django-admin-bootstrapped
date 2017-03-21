@@ -30,7 +30,7 @@
   <meta name="msapplication-TileImage" content="{% static "images/favicons/mstile-144x144.png" %}">
   <meta name="theme-color" content="#ffffff">
 
-  <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,700,600,300" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,700,600,300" rel="stylesheet" type="text/css">
 
   <link rel="stylesheet" href="{% static "styles/bootstrap.css" %}">
   <link rel="stylesheet" href="{% static "styles/dependencies.css" %}">
@@ -263,7 +263,11 @@
                         {{ user.first_name }} {{ user.last_name }}
                       {% else %} {{ user.username }} {% endif %}</h4>
             <p class="text-muted">
-              <small>Programmer</small>
+                {% if user.employeeprofile %}
+                <small>{{ user.employeeprofile.function }}</small>
+                {% else %}
+                <small>Unknown</small>
+                {% endif %}
             </p>
           </div>
         </div>

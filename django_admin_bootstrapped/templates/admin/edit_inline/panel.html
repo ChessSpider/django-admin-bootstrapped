@@ -1,4 +1,6 @@
-{% load i18n admin_urls admin_static bootstrapped_goodies_tags %}
+{% load i18n admin_urls admin_static bootstrapped_goodies_tags nested_admin %}
+{% with inline_admin_formset.formset.is_nested as is_nested %}
+
 <div class="_inline-group" id="{{ inline_admin_formset.formset.prefix }}-group">
     <fieldset>
     <legend>{{ inline_admin_formset.opts.verbose_name_plural|capfirst }}</legend>
@@ -10,9 +12,10 @@
     {% endif %}
 
     <div class="items panel-group">
+
             {% for inline_admin_form in inline_admin_formset %}
             <div data-init-panel="true"
-                 class="panel fade in panel-default{% if inline_admin_form.original or inline_admin_form.show_url %} has_original{% endif %}{% if forloop.last %} empty-form last-related{% endif %}"
+                 class="panel fade in panel-default{% if inline_admin_form.original or inline_admin_form.show_url %} has_original{% endif %}{% if forloop.last %} empty-form last-related{% endif %}{% if is_nested %} djn-group-nested{% else %} djn-group-root{% endif %}"
                  id="{{ inline_admin_formset.formset.prefix }}-{% if not forloop.last %}{{ forloop.counter0 }}{% else %}empty{% endif %}">
                 <div class="panel-heading">
                     <h3 class="panel-title">
@@ -52,12 +55,17 @@
                 </div>
                 {% for fieldset in inline_admin_form %}{% for line in fieldset %}
                 {% if line.errors %}
-                {% for field in line %}
-                <div class="alert alert-danger"><strong>{{ field.field.label }}:</strong> {{ field.errors|striptags }}
-                </div>
-                {% endfor %}
+                    {% for field in line %}
+                    <div class="alert alert-danger"><strong>{{ field.field.label }}:</strong> {{ field.errors|striptags }}
+                    </div>
+                    {% endfor %}
                 {% endif %}
-                {% endfor %}{% endfor %}
+                {% endfor %}
+
+                {% endfor %}
+
+
+
 
                 <div class="panel-collapse {% if not forloop.last %}{% if not errors %}collapse{% endif %}{% endif %}{% if not inline_admin_formset.opts.start_collapsed %} in{% endif %}">
                     <div class="panel-body">
@@ -73,8 +81,19 @@
                     {% endwith %}
                     {% if inline_admin_form.needs_explicit_pk_field %}{{ inline_admin_form.pk_field.field }}{% endif %}
                     {{ inline_admin_form.fk_field.field }}
+
+
+                    {% if inline_admin_form.form.inlines %}
+                        {% for nested in inline_admin_form.form.inlines %}
+                            {% include nested.opts.template with inline_admin_formset=nested %}
+                        {% endfor %}
+                    {% endif %}
                         </div>
+
+
                 </div>
+
+
             </div>
             {% endfor %}
         </div>
@@ -85,7 +104,7 @@
 <script type="text/javascript">
 (function($) {
     $(document).ready(function() {
-        var rows = "#{{ inline_admin_formset.formset.prefix }}-group .panel";
+        var rows = "#{{ inline_admin_formset.formset.prefix }}-group {% if is_nested %} .djn-group-nested{% else %} .djn-group-root{% endif %}";
         var updateInlineLabel = function(row) {
             $(rows).find(".inline_label").each(function(i) {
                 var count = i + 1;
@@ -175,3 +194,5 @@
 })(jQuery);
 
 </script>
+
+{% endwith %}
