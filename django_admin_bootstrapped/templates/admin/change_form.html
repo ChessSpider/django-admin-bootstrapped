@@ -95,6 +95,14 @@
 
         <script type="text/javascript">
             (function($) {
+
+               $(document).on('formset:added', function(event, row, formsetName) {
+                    window.jQuery(row).find('input[data-input=daterangepicker]').daterangepicker().on('apply.daterangepicker',
+                                    function(ev, picker) {
+                                    $(this).val(picker.startDate.format(picker.locale.format));
+                                });
+                });
+
                 $(document).ready(function() {
                     $('.add-another').click(function(e) {
                         e.preventDefault();
