@@ -1,4 +1,5 @@
 {% load i18n nested_admin admin_urls %}
+{% load bootstrapped_goodies_tags %}
 {% with inline_admin_formset.formset.is_nested as is_nested %}
 
 {% with inline_admin_formset.opts as inline_opts %}
@@ -10,9 +11,12 @@
      style="padding-bottom: 30px">
 
     <fieldset class="djn-fieldset module {% ifinlineclasses %}{{ inline_admin_formset.classes }}{% endifinlineclasses %}">
+
+    {% if not inline_admin_formset.opts.hide_header|default:False %}
     <legend>
         {% if inline_admin_formset.opts.title %}{{ inline_admin_formset.opts.title }}{% else %}{{ inline_admin_formset.opts.verbose_name_plural|capfirst }}{% endif %}
     </legend>
+    {% endif %}
 
     {{ inline_admin_formset.formset.management_form }}
     {% if inline_admin_formset.formset.non_form_errors %}
@@ -20,6 +24,7 @@
         {{ inline_admin_formset.formset.non_form_errors }}
     </div>
     {% endif %}
+
 
     <div class="items panel-group djn-items">
 
@@ -74,6 +79,13 @@
                     {% if inline_admin_form.form.non_field_errors %}
                     <div class="alert alert-danger">{{ inline_admin_form.form.non_field_errors }}</div>
                     {% endif %}
+                      {% for fieldset in inline_admin_form %}{% for line in fieldset %}
+                      {% if line.errors %}
+                      {% for field in line %}
+                      <div class="alert alert-danger"><strong>{{ field.field.label }}:</strong> {{ field.errors|striptags }}</div>
+                      {% endfor %}
+                      {% endif %}
+                      {% endfor %}{% endfor %}
 
                     {% for fieldset in inline_admin_form %}
                         {% include inline_admin_formset.opts.fieldset_template %}
