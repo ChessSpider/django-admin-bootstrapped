@@ -2,6 +2,7 @@
 {% load i18n admin_static bootstrapped_goodies_tags %}
 {% load bootstrap3 %}
 {% load menu %}
+{% load cache %}
 {% get_current_language as LANGUAGE_CODE %}{% get_current_language_bidi as LANGUAGE_BIDI %}
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="{{ LANGUAGE_CODE|default:"en-us" }}"
@@ -169,25 +170,27 @@
                 <p>Recent actions</p>
               </div>
                 <div class="dd-body">
-                {% load log %}
-                {% get_admin_log 10 as admin_log for_user user %}
-                <ul class="media-list">
-                    {% for entry in admin_log %}
-                    <li class="media {% if entry.is_addition %}addlink{% endif %}{% if entry.is_change %}changelink{% endif %}{% if entry.is_deletion %}deletelink{% endif %}"
-                            title="{{ entry }}">
-                        <a href="{% if entry.is_deletion or not entry.get_admin_url %}#{% else %}{{ entry.get_admin_url }}{% endif %}">
-                            <i class="glyphicon glyphicon-{% if entry.is_addition %}plus{% endif %}{% if entry.is_change %}edit{% endif %}{% if entry.is_deletion %}remove{% endif %}"></i>
-                            {{ entry.object_repr }}
-                            {% if entry.content_type %}
-                            <span class="mini quiet">({% filter capfirst %}{{ entry.content_type }}{% endfilter %})</span>
-                            {% else %}
-                            <span class="mini quiet">({% trans 'Unknown content' %})</span>
-                            {% endif %}
-                        </a>
-                    </li>
-                    {% empty %}
-                    <li class="disabled"><a href="#">{% trans 'None available' %}</a></li>
-                    {% endfor %}
+                    {% cache 5 admin_log user.username %}
+                    {% load log %}
+                    {% get_admin_log 10 as admin_log for_user user %}
+                    <ul class="media-list">
+                        {% for entry in admin_log %}
+                        <li class="media {% if entry.is_addition %}addlink{% endif %}{% if entry.is_change %}changelink{% endif %}{% if entry.is_deletion %}deletelink{% endif %}"
+                                title="{{ entry }}">
+                            <a href="{% if entry.is_deletion or not entry.get_admin_url %}#{% else %}{{ entry.get_admin_url }}{% endif %}">
+                                <i class="glyphicon glyphicon-{% if entry.is_addition %}plus{% endif %}{% if entry.is_change %}edit{% endif %}{% if entry.is_deletion %}remove{% endif %}"></i>
+                                {{ entry.object_repr }}
+                                {% if entry.content_type %}
+                                <span class="mini quiet">({% filter capfirst %}{{ entry.content_type }}{% endfilter %})</span>
+                                {% else %}
+                                <span class="mini quiet">({% trans 'Unknown content' %})</span>
+                                {% endif %}
+                            </a>
+                        </li>
+                        {% empty %}
+                        <li class="disabled"><a href="#">{% trans 'None available' %}</a></li>
+                        {% endfor %}
+                    {% endcache %}
                 </ul>
               </div><!-- /.dd-body -->
             </div><!-- /.dropdown-menu -->
@@ -200,12 +203,6 @@
             <ul class="dropdown-menu dropdown-menu-right" role="menu">
                 {% if site_url %}
                     <li><a href="{{ site_url }}">{% trans 'View site' %}</a></li>
-                {% endif %}
-                {% if user.is_active and user.is_staff %}
-                    {% url 'django-admindocs-docroot' as docsroot %}
-                    {% if docsroot %}
-                        <li><a href="{{ docsroot }}">{% trans 'Documentation' %}</a></li>
-                    {% endif %}
                 {% endif %}
                 {% if user.has_usable_password %}
                 <li><a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a></li>
@@ -221,11 +218,7 @@
         </div>
 
         {% block userlinks %}
-        {% url 'django-admindocs-docroot' as docsroot %}
-        {% if docsroot %}
-        <li class="divider-vertical"></li>
-        <li><a href="{{ docsroot }}">{% trans 'Documentation' %}</a></li>
-        {% endif %}
+
         {% endblock %}
         {% block nav-global %}{% endblock %}
 
@@ -259,15 +252,16 @@
           </div>
           <div class="media-body">
             <h4 class="media-heading">
-              {% if user.first_name|length %}
-                        {{ user.first_name }} {{ user.last_name }}
-                      {% else %} {{ user.username }} {% endif %}</h4>
+              {% filter force_escape %}{% firstof user.get_short_name user.get_username %}{% endfilter %}</h4>
             <p class="text-muted">
+                {% cache 500 employeeprofile_function user.username %}
+                {# cache this as .function requests current contracts #}
                 {% if user.employeeprofile %}
                 <small>{{ user.employeeprofile.function }}</small>
                 {% else %}
                 <small>Unknown</small>
                 {% endif %}
+                {% endcache %}
             </p>
           </div>
         </div>
