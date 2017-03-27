@@ -1,0 +1,20 @@
+{% extends "admin/base_site.html" %}
+{% load menu %}
+{% load i18n admin_urls admin_static admin_modify bootstrapped_goodies_tags %}
+
+{% block breadcrumbs %}
+<ul class="breadcrumb">
+<li><a href="{% url 'admin:index' %}">{% trans 'Home' %}</a></li>
+<li>{% trans 'Access forbidden' %}</li>
+</ul>
+{% endblock %}
+
+{% block content %}
+<h1>403 Access Forbidden</h1>
+<p>I'm sorry, but you're not allowed to view this page. </p>
+<p>You're trying to access: <span class="text-muted"> {{ request.path }} </span></p>
+<p>As user: <span class="text-muted">{{ request.user }}</span></p>
+<p>Please ask your manager if you require access to this page.</p>
+
+<a href="javascript:window.history.back();" class="btn btn-large btn-warning">Go back to previous page</a>
+{% endblock content %}

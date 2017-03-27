@@ -1,0 +1,42 @@
+{% extends "admin/base.html" %}
+{% load i18n staticfiles %}
+
+{% block breadcrumbs %}
+<ul class="breadcrumb">
+<li><a href="{% url 'admin:index' %}">{% trans 'Home' %}</a></li>
+<li>{% trans 'Server error' %}</li>
+</ul>
+{% endblock %}
+
+{% block title %}{% trans 'Server error (500)' %}{% endblock %}
+
+{% block bodyclass %}bg-grd-dark{% endblock %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{% static "styles/pages.css" %}">
+{% endblock %}
+
+{% block site %}
+  <main class="error-wrapper">
+
+    <div class="error-brand">
+      <span class="fa-stack">
+        <i class="fa fa-circle fa-stack-2x fa-inverse"></i>
+        <i class="fa fa-exclamation-triangle fa-stack-1x text-danger"></i>
+      </span>
+    </div><!-- /.error-brand -->
+
+    <div class="error-messages">
+      <p><strong>Oopps!</strong> Something has gone wrong <br>and the page you were looking for broke something on the website!</p>
+    </div>
+    <div class="text-muted">
+        <p>It has been already reported to the site administrators. Does this happen a lot? Please contact your technical department.</p>
+    </div>
+
+    <div class="error-control">
+      <a href="/" class="btn btn-default btn-icon btn-lg"><i class="icon-direction fa-2x"></i> <br>Get back on track</a>
+    </div>
+
+  </main><!--/#wrapper-->
+
+{% endblock %}
