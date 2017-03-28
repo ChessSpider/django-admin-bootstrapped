@@ -156,7 +156,7 @@
               {% filter force_escape %}{% firstof user.get_short_name user.get_username %}{% endfilter %}</h4>
             <p class="text-muted">
                 {% cache 500 employeeprofile_function user.username %}
-                {# cache this as .function requests current contracts #}
+                {# user.employeeprofile.function is an expensive operation #}
                 {% if user.employeeprofile %}
                 <small>{{ user.employeeprofile.function }}</small>
                 {% else %}
@@ -213,6 +213,8 @@
         </div><!-- /.content-bar -->
 
           {% if not is_popup %}
+
+
         {% block navbar %}
         <nav class="navbar navbar-light">
             <div class="container-fluid">
@@ -233,13 +235,6 @@
             {% endif %}
 
         <div class="content-body">
-
-            {% block pretitle %}{% endblock %}
-            {% block content_title %}
-            {% if title %}
-                <h1>{% render_with_template_if_exist title|lower|add:"/admin_app_name.html" title %}</h1>
-            {% endif %}
-            {% endblock %}
 
          {% block content %}{{ content }}{% endblock %}
 
