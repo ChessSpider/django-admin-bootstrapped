@@ -28,7 +28,8 @@
 
         <!-- use .pull-*, couse we need this float on any screen size -->
         <div class="pull-right" role="navigation">
-          <a aria-label="Search" id="brandSearchNav" class="btn btn-icon navbar-btn" href="#"><i class="fa fa-search"></i></a>
+
+            <!-- fancy not-working search <a aria-label="Search" id="brandSearchNav" class="btn btn-icon navbar-btn" href="#"><i class="fa fa-search"></i></a> -->
 
           <div class="dropdown-ext">
             <a aria-label="notifications" class="btn btn-icon navbar-btn dropdown-toggle" data-toggle="dropdown" href="#">
@@ -52,7 +53,7 @@
                       <div class="media-body">
                         <p class="pull-right"><small>6m</small></p>
                         <h4 class="media-heading body-text">Aziz Ahrouch</h4>
-                        <p>O nee wat moet hier komen?</p>
+                        <p>Deze functionaliteit komt er zsm aan!</p>
                       </div>
                     </a>
                     <span class="dd-actions">
@@ -71,9 +72,9 @@
             </a>
             <div class="dropdown-menu dropdown-menu-ext dropdown-menu-right" role="menu">
               <div class="dd-head">
-                <div class="dd-head-actions">
+                <!-- <div class="dd-head-actions">
                   <a href="#" class="btn btn-xs btn-default">View all</a>
-                </div>
+                </div> -->
                 <p>Recent actions</p>
               </div>
                 <div class="dd-body">
@@ -108,19 +109,12 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans 'Welcome,' %} <strong>{% filter force_escape %}{% firstof user.get_short_name user.get_username %}{% endfilter %}</strong> <span class="caret"></span></a>
             {% endblock %}
             <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                {% if site_url %}
-                    <li><a href="{{ site_url }}">{% trans 'View site' %}</a></li>
-                {% endif %}
                 {% if user.has_usable_password %}
-                <li><a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a></li>
+                <li role="presentation"><a role="menuitem" href="{% url 'admin:password_change' %}"><span class="pull-right"><i class="icon_key text-muted"></i></span> {% trans 'Change password' %}</a></li>
                 {% endif %}
-                              <li role="presentation"><a role="menuitem" tabindex="-1" href="{# url 'my:profile' #}"><span class="pull-right"><i class="fa fa-user text-muted"></i></span>Profile</a></li>
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class="pull-right"><i class="fa fa-clock-o text-muted"></i></span>Timeline</a></li>
+                  <!-- <li role="presentation"><a role="menuitem" tabindex="-1" href="{# url 'my:profile' #}"><span class="pull-right"><i class="fa fa-user text-muted"></i></span>Profile</a></li> -->
               <li class="divider"></li>
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class="pull-right"><i class="fa fa-question-circle text-muted"></i></span>Help</a></li>
-              <li class="divider"></li>
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class="pull-right"><i class="fa fa-lock text-muted"></i></span>Locked</a></li>
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="{# url 'my:logout' #}"><span class="pull-right"><i class="fa fa-sign-out text-muted"></i></span> Sign out</a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'admin:logout' %}"><span class="pull-right"><i class="fa fa-sign-out text-muted"></i></span> Sign out</a></li>
             </ul>
         </div>
 
