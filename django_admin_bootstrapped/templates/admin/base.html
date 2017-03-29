@@ -27,17 +27,18 @@
   <meta name="msapplication-TileImage" content="{% static "images/favicons/mstile-144x144.png" %}">
   <meta name="theme-color" content="#ffffff">
 
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,700,600,300" rel="stylesheet" type="text/css">
 
-  <link rel="stylesheet" href="{% static "styles/bootstrap.css" %}">
-  <link rel="stylesheet" href="{% static "styles/dependencies.css" %}">
+  <link rel="stylesheet" href="{% static "styles/fonts.css" %}" type="text/css">
 
-  <link rel="stylesheet" href="{% static "styles/wrapkit.css" %}">
+  <link rel="stylesheet" href="{% static "styles/bootstrap.css" %}"  type="text/css">
+  <link rel="stylesheet" href="{% static "styles/dependencies.css" %}"  type="text/css">
 
-  <link rel="stylesheet" href="{% static "styles/custom.css" %}">
+  <link rel="stylesheet" href="{% static "styles/wrapkit.css" %}"  type="text/css">
+
+  <link rel="stylesheet" href="{% static "styles/custom.css" %}"  type="text/css">
     {% if LANGUAGE_BIDI %}
-    <link href="{% static "bootstrap-rtl/css/bootstrap-rtl.min.css" %}" rel="stylesheet"/>
-    <link href="{% static "bootstrap-rtl/css/bootstrap-flipped.min.css" %}" rel="stylesheet"/>
+    <link href="{% static "bootstrap-rtl/css/bootstrap-rtl.min.css" %}" rel="stylesheet"  type="text/css" />
+    <link href="{% static "bootstrap-rtl/css/bootstrap-flipped.min.css" %}" rel="stylesheet"  type="text/css"/>
     {% endif %}
 
         {% block extrastyle %}{% endblock %}
