@@ -14,7 +14,7 @@
             </h3>
         </div>
         {% endif %}
-        <div id="body-{% if stacked_prefix %}{{ stacked_prefix }}-{% endif %}{{ forloop.counter }}" class="panel-collapse  {% if not errors %}collapse{{ fieldset.classes }}{% endif %}" style="height: 0px;">
+        <div id="body-{% if stacked_prefix %}{{ stacked_prefix }}-{% endif %}{{ forloop.counter }}" class="panel-collapse  {% if not errors %}collapse{% endif %} {{ fieldset.classes }}" >
             <div class="panel-body">
                 {% if fieldset.description %}
                 <div class="description">{{ fieldset.description|safe }}</div>

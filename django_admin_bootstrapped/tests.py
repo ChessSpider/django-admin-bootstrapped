@@ -47,7 +47,7 @@ else:
             field = self.form['date']
             html = self.render_template(field)
             # we prepend these classes
-            self.assertIn('class="form-control form-control-inline', html)
+            self.assertIn('class="form-control', html)
 
         def test_render_datetime(self):
             field = self.form['datetime']
