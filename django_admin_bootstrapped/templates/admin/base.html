@@ -46,10 +46,7 @@
   <!-- custom page css -->
   {% endblock %}
 
-  <!-- VENDORS : jQuery & Bootstrap -->
   <script src="{% static "scripts/vendor.js" %}"></script>
-  <script src="{% static "scripts/dependencies.js" %}"></script>
-  <script src="{% static "scripts/plugin-setups.js" %}"></script>
 
   <!-- COMPONENTS -->
   <!-- <script src="{% static "scripts/typeahead.bundle.js" %}"></script>
@@ -61,6 +58,7 @@
   <script src="{% static "scripts/jquery.sparkline.js" %}"></script>
   <script src="{% static "scripts/jquery.easypiechart.js" %}"></script> -->
   <script src="{% static "scripts/moment.js" %}"></script>  <!-- required for datetimepicker at least -->
+
 
   {% block page_js_header %}
   <!-- custom page js for header -->
@@ -84,7 +82,7 @@
             (function($) {
                 $(document).ready(function() {
                     $('input[type="submit"]').addClass('btn');
-                    $('[title]').tooltip();
+                //    $('[title]').tooltip();
                 });
             }(jQuery));
     //]]>
@@ -98,6 +96,12 @@
   {% endblock %}
 
 
+    <!-- VENDORS : jQuery & Bootstrap -->
+
+  <script src="{% static "scripts/dependencies.js" %}"></script>
+
+
+
   <!-- WRAPKIT -->
   <script src="{% static "scripts/wrapkit.js" %}"></script>
   <!-- END WRAPKIT -->
@@ -106,6 +110,7 @@
   <!-- WRAPKIT SETUPS -->
   <script src="{% static "scripts/wrapkit-setup.js" %}"></script>
   <!-- end WRAPKIT SETUPS -->
+    <script src="{% static "scripts/plugin-setups.js" %}"></script>
 
   {% block page_js_footer %}
   <!-- custom page js for footer -->
